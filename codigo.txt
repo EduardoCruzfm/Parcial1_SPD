@@ -1,0 +1,164 @@
+// C++ code
+//Eduardo Cruz
+//Parcial 1
+
+// SERVOS
+#include <Servo.h>
+Servo Servo1;
+
+//LEDS
+#define LED_ROJO A3
+#define LED_VERDE A2
+
+//BOTONES BOTON_SUBIR
+#define BOTON_SUBIR 11
+#define BOTOR_DETENER 12
+#define BOTON_BAJAR 13
+
+//7 SEGMENTOS
+#define ROJO A5
+#define CELESTE A4
+#define AMARILLO 2
+#define MARRON 3
+#define VERDE 6
+#define VIOLETA 5
+#define NARANJA 4
+
+//ESTADOS DE BOTONES
+int estadoBotonSubir;
+int estadoBotonDetener;
+int estadoBotonBajar;
+
+//PIN SERVOS
+int servoPin = 10;
+
+//VARIABLES DE OPERACION
+int tiempo = 3000;
+int acumulador_tiempo = 0;
+
+//FIRMA DE FUNCION
+void moverServo(int grados);
+
+void setup()
+{
+  //SERVO
+  Servo1.attach(servoPin);
+  //LEDS
+  pinMode(LED_ROJO, OUTPUT);
+  pinMode(LED_VERDE, OUTPUT);
+  //BOTONES
+  pinMode(BOTON_SUBIR, INPUT_PULLUP);
+  pinMode(BOTOR_DETENER, INPUT_PULLUP);
+  pinMode(BOTON_BAJAR, INPUT_PULLUP);
+  //7 SEGMENTOS
+  pinMode(ROJO, OUTPUT);
+  pinMode(CELESTE, OUTPUT);
+  pinMode(AMARILLO, OUTPUT);
+  pinMode(MARRON, OUTPUT);
+  pinMode(VERDE, OUTPUT);
+  pinMode(VIOLETA,OUTPUT);
+  pinMode(NARANJA, OUTPUT);
+//SERIAL
+  Serial.begin(9600);
+
+}
+
+void loop()
+{
+  Serial.println(acumulador_tiempo);
+ 
+  //ESTADOS DE LECTURA
+  estadoBotonSubir = digitalRead(BOTON_SUBIR);
+  estadoBotonDetener = digitalRead(BOTOR_DETENER);
+  estadoBotonBajar = digitalRead(BOTON_BAJAR);
+  
+  //SUBIR 
+  if(estadoBotonSubir == 0){ 
+    digitalWrite(LED_VERDE, 1);
+    digitalWrite(LED_ROJO, 0);
+    acumulador_tiempo = acumulador_tiempo + tiempo;  
+  }
+  
+  //DETENER
+   if(estadoBotonDetener == 0){   
+     digitalWrite(LED_VERDE, 0);
+     digitalWrite(LED_ROJO, 1);
+     Serial.println("el piso se detuvo");       
+  }
+  
+  //BAJAR
+   if(estadoBotonBajar == 0){     
+     digitalWrite(LED_VERDE, 1);
+     digitalWrite(LED_ROJO, 0);
+     acumulador_tiempo = acumulador_tiempo - tiempo;
+    }
+  //NO DEJA QUE SEA MENOR PARA TRABAJR EN EL RANGO ENTRE 0 A 6000
+  if(acumulador_tiempo < 3000){
+  	acumulador_tiempo = 0;
+  }
+  //NO DEJA QUE SEA MAYOR PARA TRABAJR EN EL RANGO ENTRE 0 A 6000
+   if(acumulador_tiempo > 9000){
+  	acumulador_tiempo = 6000;
+  }
+  
+   //7 SEGMENTOS
+   switch(acumulador_tiempo){
+
+      case 0:
+	 		pisoUno();	
+     		moverServo(0);
+       		break;
+     
+      case 3000:
+      		pisoDos();	
+     		moverServo(90);	
+      		break;
+
+      case 6000:
+       		pisoTres();
+            moverServo(180);
+        	break;
+    } 
+}
+
+//MUESTRA EL 1ER PISO EN EL 7 SEGMENTOS
+void pisoUno(){
+    Serial.println("piso uno");
+    digitalWrite(ROJO,0);
+    digitalWrite(AMARILLO,0);
+    digitalWrite(MARRON,1);
+    digitalWrite(VIOLETA,0);
+    digitalWrite(NARANJA,1);
+    digitalWrite(VERDE,0);
+    delay(200);
+}
+
+//MUESTRA EL 2DO PISO EN EL 7 SEGMENTOS
+void pisoDos(){
+    Serial.println("piso dos"); 
+    digitalWrite(NARANJA,0);
+  	digitalWrite(ROJO,1);
+    digitalWrite(AMARILLO,1);
+    digitalWrite(MARRON,1); 
+    digitalWrite(VIOLETA,1);
+    digitalWrite(VERDE,1);
+    delay(200);
+}
+
+//MUESTRA EL 3ER PISO EN EL 7 SEGMENTOS
+void pisoTres(){
+    Serial.println("piso tres"); 
+    digitalWrite(MARRON,0);
+    digitalWrite(VERDE,0);  
+	digitalWrite(NARANJA,1);
+    digitalWrite(ROJO,1);
+    digitalWrite(AMARILLO,1);
+    digitalWrite(MARRON,1); 
+    digitalWrite(VIOLETA,1);
+  	delay(200);
+}
+
+//CAMBIA EL ANGULO DEL SERVO
+void moverServo(int grados){
+  Servo1.write(grados);
+}
