@@ -17,16 +17,17 @@ El modelo de montacarga que diseño consta de 2 pisos que se inicializa el movim
 en el siguiento piso prendiendo con un led verde en cada parada, tambien tiene un pulsador de bajar que tambien cuenta del led verde y tiene un un pulsador de detenerse que activa el led avisando que se detuvo.
 
 ## Función principal
-Son define para los pines de los led:
+---
+- Son define para los pines de los led:
 LED_ROJO
 LED_VERDE
 
-Son define para los pines de los botones:
+- Son define para los pines de los botones:
 BOTON_SUBIR 
 BOTOR_DETENER 
 BOTON_BAJAR 
 
-Son define para los pines de los 7 segmentos:
+- Son define para los pines de los 7 segmentos:
 ROJO 
 CELESTE 
 AMARILLO 
@@ -36,37 +37,38 @@ VIOLETA
 NARANJA 
 
 //IF SUBIR 
-  if(estadoBotonSubir == 0)
+-  if(estadoBotonSubir == 0)
   Esta condicon manda señal (1) al led verde y señal(0) al led rojo. 
   Suma al acumulador un valor que sera evaluado en el Switch.
 
 //if DETENER
-   if(estadoBotonDetener == 0)
+-   if(estadoBotonDetener == 0)
    Esta condicon manda señal (0) al led verde y señal(1) al led rojo. 
    Muestra en Serial Monitor que se detuvo.
 
 //IF BAJAR
-   if(estadoBotonBajar == 0)
+-   if(estadoBotonBajar == 0)
   Esta condicon manda señal (1) al led verde y señal(0) al led rojo. 
   Resta al acumulador un valor que sera evaluado en el Switch.
 
 
 //FUNCIONES
 
-pisoUno();
+- pisoUno();
 Esta funcion les da señal a los pines 3 y 4 formando el numero 1 en le 7 segmentos.
 Muestra en piso en el que se encuentra -> Piso uno.
 
-pisoDos();
+- pisoDos();
 Esta funcion les da señal a los pines A5, 2, 3, 5 y 6 formando el numero 2 en le 7 segmentos
 Muestra en piso en el que se encuentra -> Piso dos.
 
-pisoTres();
+- pisoTres();
 Esta funcion les da señal a los pines 4, A5, 2, 3 y 5 formando el numero 3 en le 7 segmentos
 Muestra en piso en el que se encuentra -> Piso tres.
 
-moverServo();
+- moverServo();
 Esta funcion posiciona el servo segun el angulo pasado como parametro. 
+---
 
 ~~~ C (lenguaje en el que esta escrito)
 
